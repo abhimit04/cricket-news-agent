@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
       // ----------------------------
       // Cricbuzz Latest News
-      // ---------------------------- Abhishek
+      // ---------------------------- Abhishek likes cricket
       const cricbuzzUrl = "https://www.cricbuzz.com/cricket-news";
       const { data: cricbuzzHtml } = await axios.get(cricbuzzUrl);
       const $cb = cheerio.load(cricbuzzHtml);
