@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
       // ----------------------------
       // Cricbuzz Latest News
-      // ---------------------------- Cricket is a major sport in India with a huge following. Here are some of the latest cricket news headlines from popular sources like Cricinfo and Cricbuzz.
+      // ----------------------------
       const cricbuzzUrl = "https://www.cricbuzz.com/cricket-news";
       const { data: cricbuzzHtml } = await axios.get(cricbuzzUrl);
       const $cb = cheerio.load(cricbuzzHtml);
