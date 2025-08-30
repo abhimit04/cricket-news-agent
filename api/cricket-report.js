@@ -149,7 +149,17 @@ export default async function handler(req, res) {
           html: `
             <h2>Top cricket news for you :</h2>
 
-            <p>${summaryText || "No summary available"}</p>
+            //<p>${summaryText || "No summary available"}</p>
+
+            <ul>
+              ${(summaryText || "No summary available")
+                .split("\n")                 // split into lines
+                .filter(line => line.trim()) // remove empty lines
+                .map(line => `<li>${line.replace(/^[-•]\s*/, "")}</li>`) // clean leading dashes/bullets
+                .join("")}
+            </ul>
+
+
             <h3>Latest Headlines:</h3>
             <ul>
               ${news.map(item =>
