@@ -178,7 +178,7 @@ export default async function handler(req, res) {
       res.status(200).json({
         success: true,
         count: news.length,
-        summary: summaryText,
+        summary: summaryHtml,
         news,
         emailSent
       });
