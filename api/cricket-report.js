@@ -160,7 +160,7 @@ export default async function handler(req, res) {
             </ul>
 
 
-            <h3>Latest Headlines:</h3>
+            <h3>Read the news in detail here:</h3>
             <ul>
               ${news.map(item =>
                 `<li><strong>${item.headline}</strong> <em>(${item.source})</em><br>
