@@ -147,9 +147,7 @@ export default async function handler(req, res) {
           to: process.env.EMAIL_TO,
           subject: "Daily Cricket Report 🏏",
           html: `
-            <h2>Top cricket news for you :</h2>
-
-            //<p>${summaryText || "No summary available"}</p>
+            <h2>Top cricket news for you :</h2
 
             <ul>
               ${(summaryText || "No summary available")
