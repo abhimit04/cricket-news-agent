@@ -108,11 +108,11 @@ export default async function handler(req, res) {
 
         const headlinesList = news.map(item => `- ${item.headline} (${item.source})`);
         const prompt = `
-        Summarize these cricket news headlines into clear bullet points while it is sent in an email.
+        Summarize these cricket news headlines into clear bullet points.
         Rules:
         - Start each point with "•"
-        - Put each point on a new line
-        - Keep sentences short and concise
+        - Each point should be short (1–2 sentences max)
+        - Each point on a new line
 
         Headlines:
         ${headlinesList.join("\n")}
@@ -121,6 +121,13 @@ export default async function handler(req, res) {
 
         const result = await model.generateContent(prompt);
         summaryText = result.response.text();
+        // Convert Gemini's bullet points into HTML <li>
+        const summaryHtml = summaryText
+          .split("\n")
+          .filter(line => line.trim()) // remove empty lines
+          .map(line => `<li>${line.replace(/^[-•]\s*/, "")}</li>`) // strip "•" or "-"
+          .join("");
+
       } catch (err) {
         console.warn("Gemini summarization failed:", err.message);
       }
@@ -147,7 +154,7 @@ export default async function handler(req, res) {
           html: `
             <h2>Top cricket news for you :</h2>
 
-            <p>${summaryText || "No summary available"}</p>
+            <p>${summaryHtml || "No summary available"}</p>
             <h3>Latest Headlines:</h3>
             <ul>
               ${news.map(item =>
