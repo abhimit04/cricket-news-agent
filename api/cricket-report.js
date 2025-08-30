@@ -121,12 +121,7 @@ export default async function handler(req, res) {
 
         const result = await model.generateContent(prompt);
         summaryText = result.response.text();
-        // Convert Gemini's bullet points into HTML <li>
-        const summaryHtml = summaryText
-          .split("\n")
-          .filter(line => line.trim()) // remove empty lines
-          .map(line => `<li>${line.replace(/^[-•]\s*/, "")}</li>`) // strip "•" or "-"
-          .join("");
+
 
       } catch (err) {
         console.warn("Gemini summarization failed:", err.message);
@@ -154,7 +149,7 @@ export default async function handler(req, res) {
           html: `
             <h2>Top cricket news for you :</h2>
 
-            <p>${summaryHtml || "No summary available"}</p>
+            <p>${summaryText || "No summary available"}</p>
             <h3>Latest Headlines:</h3>
             <ul>
               ${news.map(item =>
@@ -178,7 +173,7 @@ export default async function handler(req, res) {
       res.status(200).json({
         success: true,
         count: news.length,
-        summary: summaryHtml,
+        summary: summaryText,
         news,
         emailSent
       });
