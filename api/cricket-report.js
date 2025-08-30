@@ -72,29 +72,7 @@ export default async function handler(req, res) {
     // ----------------------------
     // NewsAPI Fallback
     // ----------------------------
-    if (process.env.NEWS_API_KEY) {
-      try {
-        const response = await axios.get("https://newsapi.org/v2/everything", {
-          params: {
-            q: "cricket",
-            language: "en",
-            sortBy: "publishedAt",
-            pageSize: 5,
-            apiKey: process.env.NEWS_API_KEY
-          }
-        });
 
-        const articles = response.data.articles.map(article => ({
-          source: article.source.name,
-          headline: article.title,
-          summary: article.description || "No summary available",
-          link: article.url
-        }));
-
-        news = [...news, ...articles];
-      } catch (err) {
-        console.warn("NewsAPI failed:", err.message);
-      }
     }
 
     // ----------------------------
