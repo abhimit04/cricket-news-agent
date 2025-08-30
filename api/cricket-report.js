@@ -131,13 +131,21 @@ export default async function handler(req, res) {
         });
 
         await transporter.sendMail({
-          from: `"Cricket Bot" <${process.env.EMAIL_USER}>`,
+          from: `"Cricket News Agent" <${process.env.EMAIL_USER}>`,
           to: process.env.EMAIL_TO,
           subject: "Daily Cricket Report 🏏",
           html: `
             <h2>Daily Cricket Report 🏏</h2>
-            <h3>AI Summary:</h3>
-            <p>${summaryText || "No summary available"}</p>
+            <h3>Cricket news for you:</h3>
+
+            <ul>
+              ${(summaryText || "No summary available")
+                .split("\n")
+                .map(line => line.trim())
+                .filter(line => line.length > 0)
+                .map(line => `<li>${line}</li>`)
+                .join("")}
+            </ul>
             <h3>Latest Headlines:</h3>
             <ul>
               ${news.map(item =>
