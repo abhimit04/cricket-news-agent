@@ -107,7 +107,17 @@ export default async function handler(req, res) {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // ✅ free model
 
         const headlinesList = news.map(item => `- ${item.headline} (${item.source})`);
-        const prompt = `Summarize these cricket news headlines in bullet points:\n${headlinesList.join("\n")}`;
+        const prompt = `
+        Summarize these cricket news headlines into clear bullet points.
+        Rules:
+        - Start each point with "•"
+        - Put each point on a new line
+        - Keep sentences short and concise
+
+        Headlines:
+        ${headlinesList.join("\n")}
+        `;
+
 
         const result = await model.generateContent(prompt);
         summaryText = result.response.text();
@@ -135,8 +145,8 @@ export default async function handler(req, res) {
           to: process.env.EMAIL_TO,
           subject: "Daily Cricket Report 🏏",
           html: `
-            <h2>Daily Cricket Report 🏏</h2>
-            <h3> Top cricket news for you :</h3>
+            <h2>Top cricket news for you :</h2>
+
             <p>${summaryText || "No summary available"}</p>
             <h3>Latest Headlines:</h3>
             <ul>
