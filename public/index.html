@@ -7,32 +7,119 @@
     <style>
         body {
           font-family: Arial, sans-serif;
-          background: #f9f9f9;
+          background: #f7f7f7;
+          margin: 0;
+          padding: 0;
           color: #333;
-          text-align: center;
-          padding: 2rem;
         }
-        h1 {
-          color: #0070f3;
-        }
-        a {
-          display: inline-block;
-          margin-top: 1rem;
-          padding: 0.6rem 1.2rem;
-          background: #0070f3;
+        header {
+          background: #0d47a1;
           color: #fff;
-          border-radius: 5px;
-          text-decoration: none;
+          padding: 20px;
+          text-align: center;
         }
-        a:hover {
-          background: #0059c9;
+        header h1 {
+          margin: 0;
+        }
+        main {
+          padding: 20px;
+          max-width: 900px;
+          margin: auto;
+        }
+        button {
+          background: #0d47a1;
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          cursor: pointer;
+          font-size: 16px;
+          border-radius: 6px;
+          margin: 20px 0;
+        }
+        button:hover {
+          background: #1565c0;
+        }
+        .news-card {
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          padding: 20px;
+          margin-bottom: 20px;
+        }
+        .news-card h2 {
+          margin-top: 0;
+          color: #0d47a1;
+        }
+        .summary {
+          background: #e3f2fd;
+          border-left: 5px solid #0d47a1;
+          padding: 10px;
+          margin-bottom: 20px;
+          border-radius: 6px;
+        }
+        .error {
+          background: #ffebee;
+          color: #c62828;
+          padding: 10px;
+          border-radius: 6px;
         }
     </style>
 </head>
 <body>
-<h1>Cricket News Agent 🏏</h1>
-<p>This service fetches the latest cricket news and generates AI summaries.</p>
-<a href="/api/cricket-report">View Latest News</a>
+<header>
+    <h1>Cricket News Agent 🏏</h1>
+    <p>Get the latest cricket news with AI-powered summaries</p>
+</header>
+
+<main>
+    <button onclick="loadNews()">View Latest News</button>
+    <div id="output"></div>
+</main>
+
+<script>
+    async function loadNews() {
+      const output = document.getElementById('output');
+      output.innerHTML = "<p>Loading news...</p>";
+
+      try {
+        const res = await fetch('/api/cricket-report');
+        const data = await res.json();
+
+        if (!data.success || data.count === 0) {
+          output.innerHTML = `<div class="error">No news available</div>`;
+          return;
+        }
+
+        // Display AI Summary
+        let html = `
+          <div class="summary">
+            <h2>AI Summary 📰</h2>
+            <ul>
+              ${data.summary
+                .split("\n")
+                .map(line => line ? `<li>${line.replace(/^-/, "").trim()}</li>` : "")
+                .join("")}
+            </ul>
+          </div>
+        `;
+
+        // Display News Articles
+        data.news.forEach(item => {
+          html += `
+            <div class="news-card">
+              <h2>${item.headline}</h2>
+              <p><strong>Source:</strong> ${item.source}</p>
+              <p>${item.summary}</p>
+              <a href="${item.link}" target="_blank">Read more 🔗</a>
+            </div>
+          `;
+        });
+
+        output.innerHTML = html;
+      } catch (err) {
+        output.innerHTML = `<div class="error">Error loading news: ${err.message}</div>`;
+      }
+    }
+</script>
 </body>
 </html>
-
