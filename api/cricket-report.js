@@ -129,7 +129,7 @@ export default async function handler(req, res) {
     }
 
     // ----------------------------
-    // Send Email (if configured)
+    // Send Email (if con)
     // ----------------------------
     let emailSent = false;
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.EMAIL_TO) {
