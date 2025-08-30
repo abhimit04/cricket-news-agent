@@ -143,7 +143,7 @@ export default async function handler(req, res) {
         });
 
         await transporter.sendMail({
-          from: `"Cricket Bot" <${process.env.EMAIL_USER}>`,
+          from: `"Cricket News Agent" <${process.env.EMAIL_USER}>`,
           to: process.env.EMAIL_TO,
           subject: "Daily Cricket Report 🏏",
           html: `
