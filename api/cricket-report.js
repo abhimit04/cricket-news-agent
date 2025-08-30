@@ -136,7 +136,7 @@ export default async function handler(req, res) {
           subject: "Daily Cricket Report 🏏",
           html: `
             <h2>Daily Cricket Report 🏏</h2>
-            <h3>AI Summary:</h3>
+            <h3> Top cricket news for you :</h3>
             <p>${summaryText || "No summary available"}</p>
             <h3>Latest Headlines:</h3>
             <ul>
