@@ -123,7 +123,7 @@ export default async function handler(req, res) {
       try {
         // Create summary using Gemini
         const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "Gemini 2.5 Flash" });
+        const model = genAI.getGenerativeModel({ model: "Gemini 2.5-flash" });
 
         const headlinesList = news.map(item => `- ${item.headline} (${item.source})`);
         const summaryPrompt = `Summarize these cricket news headlines into a short daily update:\n${headlinesList.join('\n')}`;
