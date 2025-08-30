@@ -107,29 +107,17 @@ export default async function handler(req, res) {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // ✅ free model
 
         const headlinesList = news.map(item => `- ${item.headline} (${item.source})`);
-        const prompt = `
-        Summarize these cricket news headlines into clear bullet points.
-        Rules:
-        - Start each point with "•"
-        - Each point should be short (1–2 sentences max)
-        - Each point on a new line
-
-        Headlines:
-        ${headlinesList.join("\n")}
-        `;
-
+        const prompt = `Summarize these cricket news headlines:\n${headlinesList.join("\n")}`;
 
         const result = await model.generateContent(prompt);
         summaryText = result.response.text();
-
-
       } catch (err) {
         console.warn("Gemini summarization failed:", err.message);
       }
     }
 
     // ----------------------------
-    // Send Email (if con)
+    // Send Email (if configured)
     // ----------------------------
     let emailSent = false;
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.EMAIL_TO) {
@@ -143,22 +131,14 @@ export default async function handler(req, res) {
         });
 
         await transporter.sendMail({
-          from: `"Cricket News Agent" <${process.env.EMAIL_USER}>`,
+          from: `"Cricket Bot" <${process.env.EMAIL_USER}>`,
           to: process.env.EMAIL_TO,
           subject: "Daily Cricket Report 🏏",
           html: `
-            <h2>Top cricket news for you :</h2
-
-            <ul>
-              ${(summaryText || "No summary available")
-                .split("\n")                 // split into lines
-                .filter(line => line.trim()) // remove empty lines
-                .map(line => `<li>${line.replace(/^[-•]\s*/, "")}</li>`) // clean leading dashes/bullets
-                .join("")}
-            </ul>
-
-
-            <h3>Read the news in detail here:</h3>
+            <h2>Daily Cricket Report 🏏</h2>
+            <h3>AI Summary:</h3>
+            <p>${summaryText || "No summary available"}</p>
+            <h3>Latest Headlines:</h3>
             <ul>
               ${news.map(item =>
                 `<li><strong>${item.headline}</strong> <em>(${item.source})</em><br>
