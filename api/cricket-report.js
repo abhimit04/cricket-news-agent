@@ -107,7 +107,7 @@ export default async function handler(req, res) {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // ✅ free model
 
         const headlinesList = news.map(item => `- ${item.headline} (${item.source})`);
-        const prompt = `Summarize these cricket news headlines:\n${headlinesList.join("\n")}`;
+        const prompt = `Summarize these cricket news headlines in bullet points:\n${headlinesList.join("\n")}`;
 
         const result = await model.generateContent(prompt);
         summaryText = result.response.text();
