@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket News Agent 🏏</title>
+</head>
+<body>
+  <h1>Cricket News Agent 🏏</h1>
+  <button id="getReport">Get Report</button>
+
+  <pre id="output"></pre> <!-- shows raw API response -->
+
+  <script>
+    document.getElementById("getReport").addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/cricket-report");
+        const data = await res.json();
+        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("output").textContent = "Error fetching report: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
