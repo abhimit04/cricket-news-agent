@@ -108,7 +108,7 @@ export default async function handler(req, res) {
 
         const headlinesList = news.map(item => `- ${item.headline} (${item.source})`);
         const prompt = `
-        Summarize these cricket news headlines into clear bullet points.
+        //Summarize these cricket news headlines into clear bullet points.
         Rules:
         - Start each point with "•"
         - Put each point on a new line
