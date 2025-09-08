@@ -13,29 +13,63 @@
           --primary: #0d47a1;
           --secondary: #1565c0;
           --accent: #42a5f5;
-          --bg: #f0f4f8;
           --card-bg: #ffffff;
         }
 
+        /* ===== Background Stadium Image ===== */
         body {
           font-family: 'Poppins', sans-serif;
           margin: 0;
           padding: 0;
-          background: var(--bg);
-          color: #333;
+          color: #fff;
+          background: url('https://images.unsplash.com/photo-1521412644187-c49fa049e84d') no-repeat center center/cover;
+          position: relative;
+          overflow-x: hidden;
+        }
+
+        /* Dark overlay so text is readable */
+        body::before {
+          content: "";
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: -2;
+        }
+
+        /* Floating Cricket Balls */
+        .ball {
+          position: fixed;
+          bottom: -50px;
+          border-radius: 50%;
+          background: radial-gradient(circle at 30% 30%, #d32f2f, #b71c1c);
+          opacity: 0.8;
+          animation: floatBalls 10s linear infinite;
+          z-index: -1;
+        }
+
+        .ball:nth-child(1) { left: 15%; width: 40px; height: 40px; animation-delay: 0s; }
+        .ball:nth-child(2) { left: 35%; width: 30px; height: 30px; animation-delay: 3s; }
+        .ball:nth-child(3) { left: 55%; width: 50px; height: 50px; animation-delay: 5s; }
+        .ball:nth-child(4) { left: 75%; width: 35px; height: 35px; animation-delay: 7s; }
+
+        @keyframes floatBalls {
+          0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+          20% { opacity: 1; }
+          80% { opacity: 1; }
+          100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
         header {
-          background: linear-gradient(135deg, var(--primary), var(--secondary));
-          color: #fff;
           text-align: center;
           padding: 60px 20px;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         header h1 {
-          font-size: 2.5rem;
+          font-size: 2.8rem;
           margin-bottom: 10px;
+          color: #fff;
+          text-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
 
         header p {
@@ -60,33 +94,24 @@
           transition: all 0.3s ease;
           display: block;
           margin: 20px auto 40px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         button:hover {
           background: #1e88e5;
           transform: translateY(-3px);
-          box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+          box-shadow: 0 6px 16px rgba(0,0,0,0.4);
         }
 
         .summary {
-          background: #e3f2fd;
+          background: rgba(227, 242, 253, 0.9);
           border-left: 6px solid var(--primary);
           padding: 20px;
           border-radius: 10px;
           margin-bottom: 40px;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          color: #000;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
           animation: fadeIn 0.8s ease;
-        }
-
-        .summary h2 {
-          margin-top: 0;
-          color: var(--primary);
-        }
-
-        .summary ul {
-          padding-left: 20px;
-          margin: 10px 0 0;
         }
 
         .news-grid {
@@ -96,40 +121,18 @@
         }
 
         .news-card {
-          background: var(--card-bg);
+          background: rgba(255,255,255,0.95);
           border-radius: 15px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
           padding: 20px;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           animation: fadeInUp 0.7s ease;
+          color: #000;
         }
 
         .news-card:hover {
           transform: translateY(-6px);
-          box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-        }
-
-        .news-card h2 {
-          margin-top: 0;
-          font-size: 1.3rem;
-          color: var(--secondary);
-        }
-
-        .news-card p {
-          margin: 10px 0;
-        }
-
-        .news-card a {
-          display: inline-block;
-          margin-top: 10px;
-          color: var(--primary);
-          text-decoration: none;
-          font-weight: 600;
-          transition: color 0.3s ease;
-        }
-
-        .news-card a:hover {
-          color: var(--accent);
+          box-shadow: 0 6px 18px rgba(0,0,0,0.4);
         }
 
         .error {
@@ -153,6 +156,12 @@
     </style>
 </head>
 <body>
+<!-- Floating cricket balls -->
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+
 <header>
     <h1>Cricket News Agent 🏏</h1>
     <p>Your daily dose of cricket headlines with AI-powered summaries</p>
