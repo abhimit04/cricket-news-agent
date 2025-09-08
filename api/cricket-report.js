@@ -110,7 +110,7 @@ export default async function handler(req, res) {
         const prompt = `
         //Summarize these cricket news headlines into clear bullet points.
         Rules:
-        - Start each point with "•"
+        //- Start each point with "•"
         - Put each point on a new line
         - Keep sentences short and concise
 
