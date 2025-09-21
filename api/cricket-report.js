@@ -110,7 +110,7 @@ export default async function handler(req, res) {
         const prompt = `
 
         Rules:
-
+        - Summarize the following cricket news headlines into concise bullet points
         - Put each point on a new line
         - Keep sentences short and concise
 
