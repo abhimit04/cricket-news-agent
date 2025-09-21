@@ -4,39 +4,37 @@ import nodemailer from "nodemailer";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(req, res) {
-  try {
-    let news = [];
 
     // ----------------------------
     // Cricinfo Scraping
     // ----------------------------
-    try {
-      const cricinfoUrl = "https://www.espncricinfo.com/latest-cricket-news";
-      const cricinfoResponse = await axios.get(cricinfoUrl, {
-        timeout: 8000,
-        headers: { "User-Agent": "Mozilla/5.0" }
-      });
+   try {
+     const rssUrl = "https://www.espncricinfo.com/rss/content/story/feeds/0.xml";
+     const response = await axios.get(rssUrl);
+     const $ = cheerio.load(response.data, { xmlMode: true });
 
-      const $ci = cheerio.load(cricinfoResponse.data);
+     let news = [];
 
-      $ci("a[data-hover='Latest']").each((i, el) => {
-        if (i < 5) {
-          const headline = $ci(el).text().trim();
-          const href = $ci(el).attr("href");
-          const link = href ? "https://www.espncricinfo.com" + href : "";
-          if (headline && link) {
-            news.push({
-              source: "Cricinfo",
-              headline,
-              summary: "No summary available",
-              link
-            });
-          }
-        }
-      });
-    } catch (err) {
-      console.warn("Cricinfo scraping failed:", err.message);
-    }
+     $("item").each((i, el) => {
+       if (i < 10) {
+         const headline = $(el).find("title").text().trim();
+         const link = $(el).find("link").text().trim();
+         const summary = $(el).find("description").text().trim() || "No summary available";
+
+         news.push({
+           source: "Cricinfo",
+           headline,
+           summary,
+           link
+         });
+       }
+     });
+
+     console.log(news);
+   } catch (err) {
+     console.warn("Cricinfo RSS fetch failed:", err.message);
+   }
+
 
     // ----------------------------
     // Cricbuzz Scraping
