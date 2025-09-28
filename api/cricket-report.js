@@ -87,7 +87,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // ----------------------------
+  // -----------------------
   // AI Summary with Gemini
   // ----------------------------
   let summaryText = "";
